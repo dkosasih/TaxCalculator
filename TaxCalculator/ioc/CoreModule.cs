@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using TaxCalculator.core;
+using TaxCalculator.dto;
 
 namespace TaxCalculator.ioc
 {
@@ -12,7 +13,6 @@ namespace TaxCalculator.ioc
                 .AsImplementedInterfaces();
             
             builder.RegisterType<FileManipulator>().AsSelf();
-            //builder.RegisterType<NormalEmployee>().AsSelf();
 
         }
 

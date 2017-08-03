@@ -51,14 +51,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="core\IEmployeePaymentProcessor.cs" />
     <Compile Include="core\IPayCalculator.cs" />
-    <Compile Include="core\NormalEmployee.cs" />
+    <Compile Include="core\EmployeePaymentProcessor.cs" />
+    <Compile Include="dto\OutputData.cs" />
     <Compile Include="core\PayCalculator.cs" />
     <Compile Include="dto\InputData.cs" />
+    <Compile Include="core\FileManipulator.cs" />
     <Compile Include="ioc\CoreModule.cs" />
     <Compile Include="ioc\IocConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
