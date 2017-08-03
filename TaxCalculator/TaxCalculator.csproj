@@ -58,6 +58,8 @@
     <Compile Include="core\PayCalculator.cs" />
     <Compile Include="dto\InputData.cs" />
     <Compile Include="core\FileManipulator.cs" />
+    <Compile Include="helper\FileWrapper.cs" />
+    <Compile Include="helper\IFileWrapper.cs" />
     <Compile Include="ioc\CoreModule.cs" />
     <Compile Include="ioc\IocConfig.cs" />
     <Compile Include="Program.cs" />

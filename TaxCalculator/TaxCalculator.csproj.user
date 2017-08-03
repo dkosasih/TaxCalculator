@@ -4,6 +4,6 @@
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>-i c:\temp\input.csv -o c:\temp\abc.csv</StartArguments>
+    <StartArguments>-i c:\temp\SalaryInputData.csv -o c:\temp\abc.csv</StartArguments>
   </PropertyGroup>
 </Project>

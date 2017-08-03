@@ -19,11 +19,10 @@ namespace TaxCalculator
             _outputPath = outputPath;
             _manipulator = manipulator;
         }
-
-
+        
         public Task Run()
         {
-            using (ILifetimeScope scope = IocConfig.Container.BeginLifetimeScope())
+            using (var scope = IocConfig.Container.BeginLifetimeScope())
             {
                 try
                 {
@@ -41,8 +40,6 @@ namespace TaxCalculator
                     {
                         throw new Exception("Empty result no csv generated");
                     }
-
-
                 }
                 catch (Exception ex)
                 {

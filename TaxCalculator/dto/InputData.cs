@@ -10,12 +10,14 @@ namespace TaxCalculator.dto
         public uint SuperRate { get; set; }
         public string PayPeriod { get; set; }
 
-        public InputData()
+        public InputData(uint superRate)
         {
-            if (SuperRate > 50)
+            if (superRate > 50)
             {
                 throw new NotSupportedException("Maximum super annuaiton rate is 50%");
             }
+
+            SuperRate = superRate;
         }
     }
 }

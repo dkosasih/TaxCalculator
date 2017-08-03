@@ -5,14 +5,26 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using Newtonsoft.Json;
+using TaxCalculator.helper;
 
 namespace TaxCalculator.core
 {
     public class FileManipulator
     {
+        private IFileWrapper _fileWrapper;
+
+        public  FileManipulator(IFileWrapper fileWrapper)
+        {
+            _fileWrapper = fileWrapper;
+        }
+
         public T GetData<T>(string filePath)
         {
-            var csv = File.ReadAllLines(filePath).Select(l => l.Split(',')).ToList(); 
+            if (!_fileWrapper.FileExists(filePath))
+            {
+               throw new FileNotFoundException("Csv input file not found");
+            }
+            var csv = _fileWrapper.ReadAllLines(filePath).Select(l => l.Split(',')).ToList(); 
 
             var headers = csv[0];
             var dicts = csv.Skip(1).Select(row => headers.Zip(row, Tuple.Create).ToDictionary(p => p.Item1, p => p.Item2)).ToArray();
@@ -24,17 +36,25 @@ namespace TaxCalculator.core
 
         public void SetData<T>(T dataToSave, string outputPath)
         {
+            if (!_fileWrapper.DirectoryExists(_fileWrapper.GetDirectoryName(outputPath)))
+            {
+                throw new DirectoryNotFoundException("Output directory does not exists");
+            }
+
             var jsonString = JsonConvert.SerializeObject(dataToSave);
-            jsonStringToCSV(jsonString, outputPath);
+            var csvList = TransformJson(jsonString);
+            
+            _fileWrapper.WriteAllLines(outputPath, csvList);
         }
 
-        private  void jsonStringToCSV(string jsonContent, string outputFile)
+        private  List<string> TransformJson(string jsonContent)
         {
-            //used NewtonSoft json nuget package
+            // convert to xml so it can be converted to datatable
             var xml = JsonConvert.DeserializeXmlNode("{records:{record:" + jsonContent + "}}");
             var xmldoc = new XmlDocument();
             xmldoc.LoadXml(xml.InnerXml);
 
+            // convert to datatable so it can get the headers and rows
             var xmlReader = new XmlNodeReader(xml);
             var dataSet = new DataSet();
 
@@ -49,10 +69,12 @@ namespace TaxCalculator.core
             var header = string.Join(",", columnNames);
             lines.Add(header);
 
+            // parse it to list of string
             var valueLines = dataTable.AsEnumerable()
                                .Select(row => string.Join(",", row.ItemArray));
             lines.AddRange(valueLines);
-            File.WriteAllLines(outputFile, lines);
+
+            return lines;
         }
     }
 }
