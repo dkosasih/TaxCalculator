@@ -35,7 +35,7 @@ namespace TaxCalculator.Core
             return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
-        public async void SetData<T>(T dataToSave, string outputPath)
+        public async Task SetData<T>(T dataToSave, string outputPath)
         {
             if (!_fileWrapper.DirectoryExists(_fileWrapper.GetDirectoryName(outputPath)))
             {

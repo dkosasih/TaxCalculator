@@ -1,8 +1,6 @@
-﻿using System;
-using AutofacContrib.NSubstitute;
+﻿using AutofacContrib.NSubstitute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TaxCalculator.Core;
-using TaxCalculator.Helper;
 
 namespace TaxCalculator.Test
 {
@@ -17,12 +15,20 @@ namespace TaxCalculator.Test
         {
             _autoSubstitute = new AutoSubstitute();
 
-            _payCalculator = _autoSubstitute.Resolve<IPayCalculator>();
+            _payCalculator = _autoSubstitute.Resolve<PayCalculator>();
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void CalculateIncomeTax_YearlyIncome_ReturnRoundedIntergerValue()
         {
+            // Arrange
+            int income = 60050;
+
+            // Act
+            var result = _payCalculator.CalculateGrossIncomeMonthly((uint)income);
+
+            // Assert
+            Assert.AreEqual(result, 5004);
         }
     }
 }

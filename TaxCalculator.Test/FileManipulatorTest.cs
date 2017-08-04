@@ -47,11 +47,11 @@ namespace TaxCalculator.Test
             var result = await _fileManipulator.GetData<IList<InputData>>(filePath);
 
             // Assert
-            Assert.AreEqual(result[0].Firstname , "David", "firstname does not match");
-            Assert.AreEqual(result[0].Lastname , "Rudd", "lastname does not match");
-            Assert.AreEqual(result[0].AnnualSalary , (uint)60500, "Annual Salary does not match");
-            Assert.AreEqual(result[0].SuperRate , (uint)9, "Super Rate does not match " );
-            Assert.AreEqual(result[0].PayPeriod , "01 March - 31 March", "Pay Period does not match");
+            Assert.AreEqual(result[0].Firstname, "David", "firstname does not match");
+            Assert.AreEqual(result[0].Lastname, "Rudd", "lastname does not match");
+            Assert.AreEqual(result[0].AnnualSalary, (uint) 60500, "Annual Salary does not match");
+            Assert.AreEqual(result[0].SuperRate, (uint) 9, "Super Rate does not match ");
+            Assert.AreEqual(result[0].PayPeriod, "01 March - 31 March", "Pay Period does not match");
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace TaxCalculator.Test
 
             _fileWrapper.FileExists(filePath).Returns(true);
             _fileWrapper.ReadAllLines(filePath).Returns(sampleFileReadResult);
-            
+
             // Act
             var result = await _fileManipulator.GetData<IList<InputData>>(filePath);
 
@@ -77,7 +77,7 @@ namespace TaxCalculator.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(JsonSerializationException))]
+        [ExpectedException(typeof (JsonSerializationException))]
         public async Task GetData_WhenSuperRateBelow0_ShouldThrowNotSupportedException()
         {
             // Arrange
@@ -99,7 +99,7 @@ namespace TaxCalculator.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
+        [ExpectedException(typeof (FileNotFoundException))]
         public async Task GetData_WhenIncorrectPathIsPassed_ShouldThrowFileNotFoundException()
         {
             // Arrange
@@ -110,6 +110,37 @@ namespace TaxCalculator.Test
             var result = await _fileManipulator.GetData<IList<InputData>>(filePath);
 
             // Assert Expect Exception
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof (DirectoryNotFoundException))]
+        public async Task SetData_WrongDirectory_ThrowDirectoryNotFoundException()
+        {
+            // Arrange
+            var filePath = @"C:\temp\InputData.csv";
+            _fileWrapper.DirectoryExists(filePath).Returns(false);
+            _fileWrapper.GetDirectoryName(filePath).Returns(@"C:\temp\");
+
+            // Act
+            await _fileManipulator.SetData(Arg.Any<IList<InputData>>(), filePath);
+
+            // Assert Expect Exception
+        }
+
+        [TestMethod]
+        public async Task SetData_CorrectFile_SetFileShouldReceiveCall()
+        {
+            // Arrange
+            var filePath = @"C:\temp\InputData.csv";
+            _fileWrapper.GetDirectoryName(Arg.Any<string>()).Returns(string.Empty);
+            _fileWrapper.DirectoryExists(Arg.Any<string>()).Returns(true);
+
+            // Act
+            await _fileManipulator.SetData(Arg.Any<IList<InputData>>(), filePath);
+
+            // Assert
+            _fileWrapper.Received().WriteAllLines(filePath, Arg.Any<IEnumerable<string>>());
         }
     }
 }

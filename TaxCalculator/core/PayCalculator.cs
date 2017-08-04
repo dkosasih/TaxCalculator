@@ -1,17 +1,25 @@
-﻿namespace TaxCalculator.Core
+﻿using System;
+
+namespace TaxCalculator.Core
 {
     public  class PayCalculator : IPayCalculator
     {
-        public  uint CalculateIncomeTax(uint grossIncomeYearly)
+
+        public int CalculateGrossIncomeMonthly(uint grossIncomeYearly)
         {
-            // TODO: Implement
-            return 0;
+            var monthlyIncome = (int)Math.Round(((double)grossIncomeYearly/12), MidpointRounding.AwayFromZero);
+            return monthlyIncome;
+        }
+
+        public  int CalculateIncomeTax(uint grossIncomeYearly)
+        {
+            return (int)grossIncomeYearly - 2;
         }
 
         public  int CalculateNetIncome(uint grossIncomeYearly, int incomeTax)
         {
             // TODO: Implement
-            return 0;
+            return 1;
         }
 
         public  int CalculateSuper(int superRate)

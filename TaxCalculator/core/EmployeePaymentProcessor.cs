@@ -3,7 +3,7 @@ using TaxCalculator.Dto;
 
 namespace TaxCalculator.Core
 {
-    public class EmployeePaymentProcessor:IEmployeePaymentProcessor
+    public class EmployeePaymentProcessor : IEmployeePaymentProcessor
     {
         private IPayCalculator _payCalc;
 
@@ -20,8 +20,8 @@ namespace TaxCalculator.Core
                 new OutputData()
                 {
                     Name = "d k",
-                    IncomeTax = 1000,
-                    NetIncome = 590,
+                    IncomeTax = _payCalc.CalculateIncomeTax(150000),
+                    NetIncome = (int)(data[0].AnnualSalary - _payCalc.CalculateIncomeTax(150000)),
                     GrossIncome = 150000
                 }
             };
