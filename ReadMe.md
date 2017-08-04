@@ -1,5 +1,6 @@
 Assumption:
 - All input CSV have consistent header name.
+- Pay period are post 2012 rate.
 - IPayCalculator have only one implementation: MonthlyPayCalculator; Otherwise the IoC would be constructed differently.
 
 How to run:
