@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using TaxCalculator.ioc;
 
-namespace TaxCalculator
+namespace TaxCalculator.Ioc
 {
     public class IocConfig
     {

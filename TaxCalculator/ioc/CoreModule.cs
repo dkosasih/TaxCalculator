@@ -1,8 +1,7 @@
 ﻿using Autofac;
-using TaxCalculator.core;
-using TaxCalculator.dto;
+using TaxCalculator.Core;
 
-namespace TaxCalculator.ioc
+namespace TaxCalculator.Ioc
 {
     class CoreModule : Module
     {

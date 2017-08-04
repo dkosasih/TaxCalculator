@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Autofac;
-using TaxCalculator.core;
+using TaxCalculator.Core;
+using TaxCalculator.Ioc;
 
 namespace TaxCalculator
 {
     internal class Program
     {
-        private static async void Main(string[] args)
+        private static void Main(string[] args)
         {
             IocConfig.RegisterDependencies();
 
@@ -27,7 +27,7 @@ namespace TaxCalculator
                 if (ArgumentsValid(args, out inputPath, out outputPath))
                 {
                     var runner = new Runner(inputPath, outputPath, scope.Resolve<FileManipulator>(), scope.Resolve<IEmployeePaymentProcessor>());
-                    successRun = await  runner.Run();
+                    successRun = runner.Run().Result;
                 }
                 else
                 {

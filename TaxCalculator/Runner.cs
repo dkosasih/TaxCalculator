@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Autofac;
-using TaxCalculator.core;
-using TaxCalculator.dto;
+using TaxCalculator.Core;
+using TaxCalculator.Dto;
 
 namespace TaxCalculator
 {

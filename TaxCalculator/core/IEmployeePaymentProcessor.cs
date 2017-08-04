@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using TaxCalculator.dto;
+using TaxCalculator.Dto;
 
-namespace TaxCalculator.core
+namespace TaxCalculator.Core
 {
     public interface IEmployeePaymentProcessor
     {

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using Newtonsoft.Json;
-using TaxCalculator.helper;
+using TaxCalculator.Helper;
 
-namespace TaxCalculator.core
+namespace TaxCalculator.Core
 {
     public class FileManipulator
     {

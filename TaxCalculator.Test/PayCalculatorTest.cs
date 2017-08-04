@@ -1,8 +1,8 @@
 ﻿using System;
 using AutofacContrib.NSubstitute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TaxCalculator.core;
-using TaxCalculator.helper;
+using TaxCalculator.Core;
+using TaxCalculator.Helper;
 
 namespace TaxCalculator.Test
 {

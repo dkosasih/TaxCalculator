@@ -1,6 +1,6 @@
 using System;
 
-namespace TaxCalculator.dto
+namespace TaxCalculator.Dto
 {
     public class InputData
     {

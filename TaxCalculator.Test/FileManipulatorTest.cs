@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using AutofacContrib.NSubstitute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NSubstitute;
-using TaxCalculator.core;
-using TaxCalculator.dto;
-using TaxCalculator.helper;
+using TaxCalculator.Core;
+using TaxCalculator.Dto;
+using TaxCalculator.Helper;
 
 namespace TaxCalculator.Test
 {
@@ -28,7 +29,7 @@ namespace TaxCalculator.Test
         }
 
         [TestMethod]
-        public void GetData_WhenCorrectData_ShouldReturnRequestedObject()
+        public async Task GetData_WhenCorrectData_ShouldReturnRequestedObject()
         {
             // Arrange
             var sampleFileReadResult = new string[]
@@ -43,7 +44,7 @@ namespace TaxCalculator.Test
             _fileWrapper.ReadAllLines(filePath).Returns(sampleFileReadResult);
 
             // Act
-            var result = _fileManipulator.GetData<IList<InputData>>(filePath);
+            var result = await _fileManipulator.GetData<IList<InputData>>(filePath);
 
             // Assert
             Assert.AreEqual(result[0].Firstname , "David", "firstname does not match");
@@ -55,7 +56,7 @@ namespace TaxCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof (NotSupportedException))]
-        public void GetData_WhenSuperRateAbove50_ShouldThrowNotSupportedException()
+        public async Task GetData_WhenSuperRateAbove50_ShouldThrowNotSupportedException()
         {
             // Arrange
             var sampleFileReadResult = new string[]
@@ -70,14 +71,14 @@ namespace TaxCalculator.Test
             _fileWrapper.ReadAllLines(filePath).Returns(sampleFileReadResult);
             
             // Act
-            var result = _fileManipulator.GetData<IList<InputData>>(filePath);
+            var result = await _fileManipulator.GetData<IList<InputData>>(filePath);
 
             // Assert
         }
 
         [TestMethod]
         [ExpectedException(typeof(JsonSerializationException))]
-        public void GetData_WhenSuperRateBelow0_ShouldThrowNotSupportedException()
+        public async Task GetData_WhenSuperRateBelow0_ShouldThrowNotSupportedException()
         {
             // Arrange
             var sampleFileReadResult = new string[]
@@ -92,21 +93,21 @@ namespace TaxCalculator.Test
             _fileWrapper.ReadAllLines(filePath).Returns(sampleFileReadResult);
 
             // Act
-            var result = _fileManipulator.GetData<IList<InputData>>(filePath);
+            var result = await _fileManipulator.GetData<IList<InputData>>(filePath);
 
             // Assert
         }
 
         [TestMethod]
         [ExpectedException(typeof(FileNotFoundException))]
-        public void GetData_WhenIncorrectPathIsPassed_ShouldThrowFileNotFoundException()
+        public async Task GetData_WhenIncorrectPathIsPassed_ShouldThrowFileNotFoundException()
         {
             // Arrange
             var filePath = @"C:\temp\InputData.csv";
             _fileWrapper.FileExists(filePath).Returns(false);
 
             // Act
-            var result = _fileManipulator.GetData<IList<InputData>>(filePath);
+            var result = await _fileManipulator.GetData<IList<InputData>>(filePath);
 
             // Assert Expect Exception
         }

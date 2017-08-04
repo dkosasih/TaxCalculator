@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace TaxCalculator.helper
+namespace TaxCalculator.Helper
 {
     public class FileWrapper : IFileWrapper
     {
