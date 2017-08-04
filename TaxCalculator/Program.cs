@@ -16,7 +16,6 @@ namespace TaxCalculator
             if (args.Contains("/?") || args.Contains("-?"))
             {
                 PrintUsageInfo();
-                //return;
             }
 
             var successRun = false;
@@ -32,18 +31,12 @@ namespace TaxCalculator
                 else
                 {
                     PrintUsageInfo();
-                    successRun = false;
                 }
             }
 
-            if (successRun)
-            {
-                Console.WriteLine($"Payment calculation successful. Result can be found in: {outputPath}");
-            }
-            else
-            {
-                Console.WriteLine($"Payment calculation error. Check log for details");
-            }
+            Console.WriteLine(successRun
+                ? $"Payment calculation successful. Result can be found in: {outputPath}"
+                : $"Payment calculation error. Check log for details");
 
             Console.ReadKey();
         }
