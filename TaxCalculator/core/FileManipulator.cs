@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml;
 using Newtonsoft.Json;
 using TaxCalculator.helper;
@@ -18,7 +19,7 @@ namespace TaxCalculator.core
             _fileWrapper = fileWrapper;
         }
 
-        public T GetData<T>(string filePath)
+        public async Task<T> GetData<T>(string filePath)
         {
             if (!_fileWrapper.FileExists(filePath))
             {
@@ -29,19 +30,19 @@ namespace TaxCalculator.core
             var headers = csv[0];
             var dicts = csv.Skip(1).Select(row => headers.Zip(row, Tuple.Create).ToDictionary(p => p.Item1, p => p.Item2)).ToArray();
 
-            var jsonString = JsonConvert.SerializeObject(dicts);
+            var jsonString = await Task.Factory.StartNew(()=>JsonConvert.SerializeObject(dicts));
             
             return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
-        public void SetData<T>(T dataToSave, string outputPath)
+        public async void SetData<T>(T dataToSave, string outputPath)
         {
             if (!_fileWrapper.DirectoryExists(_fileWrapper.GetDirectoryName(outputPath)))
             {
                 throw new DirectoryNotFoundException("Output directory does not exists");
             }
 
-            var jsonString = JsonConvert.SerializeObject(dataToSave);
+            var jsonString = await Task.Factory.StartNew(()=> JsonConvert.SerializeObject(dataToSave));
             var csvList = TransformJson(jsonString);
             
             _fileWrapper.WriteAllLines(outputPath, csvList);

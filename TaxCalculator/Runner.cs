@@ -12,25 +12,24 @@ namespace TaxCalculator
         private string _inputPath;
         private string _outputPath;
         private FileManipulator _manipulator;
+        private IEmployeePaymentProcessor _paymentProcessor;
 
-        public Runner(string inputPath, string outputPath, FileManipulator manipulator)
+        public Runner(string inputPath, string outputPath, FileManipulator manipulator, IEmployeePaymentProcessor paymentProcessor)
         {
             _inputPath = inputPath;
             _outputPath = outputPath;
             _manipulator = manipulator;
+            _paymentProcessor = paymentProcessor;
         }
         
-        public Task Run()
+        public async Task<bool> Run()
         {
-            using (var scope = IocConfig.Container.BeginLifetimeScope())
-            {
+            
                 try
                 {
-                    var inputData = _manipulator.GetData<IList<InputData>>(_inputPath);
-
-                    var processor = scope.Resolve<IEmployeePaymentProcessor>();
-
-                    var outputFile = processor.GeneratePaymentSummary(inputData);
+                    var inputData = await _manipulator.GetData<IList<InputData>>(_inputPath);
+                
+                    var outputFile =  _paymentProcessor.GeneratePaymentSummary(inputData);
 
                     if (outputFile.Count > 0)
                     {
@@ -44,9 +43,10 @@ namespace TaxCalculator
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Unexpected error executing the Runner. ex: {ex.Message}");
-                }
+                return false;
             }
-            return Task.FromResult(0);
+
+            return true;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace TaxCalculator
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static async void Main(string[] args)
         {
             IocConfig.RegisterDependencies();
 
@@ -19,17 +19,32 @@ namespace TaxCalculator
                 //return;
             }
 
+            var successRun = false;
             string inputPath, outputPath;
-            if (ArgumentsValid(args, out inputPath, out outputPath))
+
+            using (var scope = IocConfig.Container.BeginLifetimeScope())
             {
-                var runner = new Runner(inputPath, outputPath, IocConfig.Container.Resolve<FileManipulator>());
-                runner.Run().Wait();
+                if (ArgumentsValid(args, out inputPath, out outputPath))
+                {
+                    var runner = new Runner(inputPath, outputPath, scope.Resolve<FileManipulator>(), scope.Resolve<IEmployeePaymentProcessor>());
+                    successRun = await  runner.Run();
+                }
+                else
+                {
+                    PrintUsageInfo();
+                    successRun = false;
+                }
+            }
+
+            if (successRun)
+            {
+                Console.WriteLine($"Payment calculation successful. Result can be found in: {outputPath}");
             }
             else
             {
-                PrintUsageInfo();
-                //return;
+                Console.WriteLine($"Payment calculation error. Check log for details");
             }
+
             Console.ReadKey();
         }
 
@@ -55,9 +70,7 @@ namespace TaxCalculator
                     Console.WriteLine("Output directory does not exists");
                     return false;
                 }
-
-                Console.WriteLine(outputPath);
-                Console.WriteLine(inputPath);
+                
 
                 return true;
             }
