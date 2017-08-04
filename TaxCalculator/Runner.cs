@@ -23,7 +23,6 @@ namespace TaxCalculator
         
         public async Task<bool> Run()
         {
-            
                 try
                 {
                     var inputData = await _manipulator.GetData<IList<InputData>>(_inputPath);
@@ -32,7 +31,7 @@ namespace TaxCalculator
 
                     if (outputFile.Count > 0)
                     {
-                        _manipulator.SetData(outputFile, _outputPath);
+                        await _manipulator.SetData(outputFile, _outputPath);
                     }
                     else
                     {

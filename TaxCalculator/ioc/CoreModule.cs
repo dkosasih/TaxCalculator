@@ -3,7 +3,7 @@ using TaxCalculator.Core;
 
 namespace TaxCalculator.Ioc
 {
-    class CoreModule : Module
+    public class CoreModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
@@ -12,7 +12,6 @@ namespace TaxCalculator.Ioc
                 .AsImplementedInterfaces();
             
             builder.RegisterType<FileManipulator>().AsSelf();
-
         }
 
     }

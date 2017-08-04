@@ -55,7 +55,7 @@
     <Compile Include="Core\IPayCalculator.cs" />
     <Compile Include="Core\EmployeePaymentProcessor.cs" />
     <Compile Include="Dto\OutputData.cs" />
-    <Compile Include="Core\PayCalculator.cs" />
+    <Compile Include="Core\MonthlyPayCalculator.cs" />
     <Compile Include="Dto\InputData.cs" />
     <Compile Include="Core\FileManipulator.cs" />
     <Compile Include="Helper\FileWrapper.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using AutofacContrib.NSubstitute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -35,7 +36,7 @@ namespace TaxCalculator.Test
             var sampleFileReadResult = new string[]
             {
                 "Firstname,Lastname,AnnualSalary,SuperRate,PayPeriod",
-                "David,Rudd,60500,9,01 March - 31 March"
+                "David,Rudd,60050,9,01 March - 31 March"
             };
 
             var filePath = @"C:\temp\InputData.csv";
@@ -47,11 +48,11 @@ namespace TaxCalculator.Test
             var result = await _fileManipulator.GetData<IList<InputData>>(filePath);
 
             // Assert
-            Assert.AreEqual(result[0].Firstname, "David", "firstname does not match");
-            Assert.AreEqual(result[0].Lastname, "Rudd", "lastname does not match");
-            Assert.AreEqual(result[0].AnnualSalary, (uint) 60500, "Annual Salary does not match");
-            Assert.AreEqual(result[0].SuperRate, (uint) 9, "Super Rate does not match ");
-            Assert.AreEqual(result[0].PayPeriod, "01 March - 31 March", "Pay Period does not match");
+            Assert.AreEqual("David", result.First().Firstname, "firstname does not match");
+            Assert.AreEqual("Rudd", result.First().Lastname, "lastname does not match");
+            Assert.AreEqual((uint) 60050, result.First().AnnualSalary, "Annual Salary does not match");
+            Assert.AreEqual((uint) 9, result.First().SuperRate, "Super Rate does not match ");
+            Assert.AreEqual("01 March - 31 March", result.First().PayPeriod, "Pay Period does not match");
         }
 
         [TestMethod]

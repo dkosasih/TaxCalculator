@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TaxCalculator.Dto;
 
 namespace TaxCalculator.Core
@@ -14,17 +15,20 @@ namespace TaxCalculator.Core
 
         public IList<OutputData> GeneratePaymentSummary(IList<InputData> data)
         {
-            // TODO: Implement
-            var resultData = new List<OutputData>
-            {
+            var resultData = data.Select(x =>
                 new OutputData()
                 {
-                    Name = "d k",
-                    IncomeTax = _payCalc.CalculateIncomeTax(150000),
-                    NetIncome = (int)(data[0].AnnualSalary - _payCalc.CalculateIncomeTax(150000)),
-                    GrossIncome = 150000
-                }
-            };
+                    Name = $"{x.Firstname} {x.Lastname}",
+                    PayPeriod = x.PayPeriod,
+                    GrossIncome = _payCalc.CalculateGrossIncome(x.AnnualSalary),
+                    IncomeTax = _payCalc.CalculateIncomeTax(x.AnnualSalary),
+                    NetIncome =
+                        _payCalc.CalculateNetIncome(_payCalc.CalculateGrossIncome(x.AnnualSalary),
+                            _payCalc.CalculateIncomeTax(x.AnnualSalary)),
+                    SuperAnnuationEarned =
+                        _payCalc.CalculateSuper(_payCalc.CalculateGrossIncome(x.AnnualSalary), x.SuperRate)
+                }).ToList();
+
             return resultData;
         }
 
