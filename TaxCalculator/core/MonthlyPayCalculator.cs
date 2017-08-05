@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TaxCalculator.Dto;
 
 namespace TaxCalculator.Core
 {
@@ -13,9 +16,9 @@ namespace TaxCalculator.Core
 
         public  int CalculateIncomeTax(uint grossIncomeYearly)
         {
-            var taxParameter = TaxParameters2017(grossIncomeYearly);
+            var taxBracket = TaxParameters2017(grossIncomeYearly);
             var incomeTax =
-                (int)Math.Round((taxParameter.Item2 + (grossIncomeYearly - taxParameter.Item1)*taxParameter.Item3)/12,
+                (int)Math.Round((taxBracket.PreviousTaxBracket + (grossIncomeYearly - taxBracket.LowerLimit)*taxBracket.TaxRate)/12,
                     MidpointRounding.AwayFromZero);
 
             return incomeTax;
@@ -33,44 +36,60 @@ namespace TaxCalculator.Core
             return superValue;
         }
 
-        private Tuple<int, int, double> TaxParameters2017(uint income)
+        private IEnumerable<TaxBracket> GetParameterSet()
         {
-            const int bracketA = 18200,
-                bracketB = 37000,
-                bracketC = 80000,
-                bracketD = 180000;
+            var taxParameters = new List<TaxBracket>()
+            {
+                new TaxBracket()
+                {
+                    LowerLimit = 0,
+                    UpperLimit = 0,
+                    TaxRate = 0,
+                    PreviousTaxBracket = 0
+                },
+                new TaxBracket()
+                {
+                    LowerLimit = 0,
+                    UpperLimit = 18200,
+                    TaxRate = 0,
+                    PreviousTaxBracket = 0
+                },
+                new TaxBracket()
+                {
+                    LowerLimit = 18200,
+                    UpperLimit = 37000,
+                    TaxRate = 0.19,
+                    PreviousTaxBracket = 0
+                },
+                new TaxBracket()
+                {
+                    LowerLimit = 37000,
+                    UpperLimit = 80000,
+                    TaxRate = 0.325,
+                    PreviousTaxBracket = 3572
+                },
+                new TaxBracket()
+                {
+                    LowerLimit = 80000,
+                    UpperLimit = 180000,
+                    TaxRate = 0.37,
+                    PreviousTaxBracket = 17547
+                },
+                new TaxBracket()
+                {
+                    LowerLimit = 180000,
+                    UpperLimit = int.MaxValue,
+                    TaxRate = 0.45,
+                    PreviousTaxBracket = 54547
+                }
 
-            const int preBracketAValue = 0,
-                preBracketBValue = 3572,
-                preBracketCValue = 17547,
-                preBracketDValue = 54547;
-
-            const double bracketARate = 0.19,
-                bracketBRate = 0.325,
-                bracketCRate = 0.37,
-                bracketDRate = 0.45;
-
-
-            if (income > bracketD)
-            {
-                return new Tuple<int, int, double>(bracketD, preBracketDValue, bracketDRate);
-            }
-            else if (income > bracketC)
-            {
-                return new Tuple<int, int, double>(bracketC, preBracketCValue, bracketCRate);
-            }
-            else if (income > bracketB)
-            {
-                return new Tuple<int, int, double>(bracketB, preBracketBValue, bracketBRate);
-            }
-            else if (income > bracketA)
-            {
-                return new Tuple<int, int, double>(bracketA, preBracketAValue, bracketARate);
-            }
-            else // below 18200
-            {
-                return new Tuple<int, int, double>(0, 0, 0);
-            }
+            };
+            return taxParameters;
+        } 
+        private TaxBracket TaxParameters2017(uint income)
+        {
+            var taxBrackets = GetParameterSet();
+            return taxBrackets.OrderByDescending(x=>x.LowerLimit).First(x => income > x.LowerLimit);
         }
     }
 }

@@ -25,8 +25,10 @@ namespace TaxCalculator
             {
                 if (ArgumentsValid(args, out inputPath, out outputPath))
                 {
-                    var runner = new Runner(inputPath, outputPath, scope.Resolve<FileManipulator>(), scope.Resolve<IEmployeePaymentProcessor>());
-                    successRun = runner.Run().Result;
+                    
+                    var runner = scope.Resolve<Runner>();
+                    //new Runner(inputPath, outputPath, scope.Resolve<FileManipulator>(), scope.Resolve<IEmployeePaymentProcessor>());
+                    successRun = runner.Run(inputPath, outputPath).Result;
                 }
                 else
                 {

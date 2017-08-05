@@ -8,30 +8,26 @@ namespace TaxCalculator
 {
     public class Runner
     {
-        private string _inputPath;
-        private string _outputPath;
         private FileManipulator _manipulator;
         private IEmployeePaymentProcessor _paymentProcessor;
 
-        public Runner(string inputPath, string outputPath, FileManipulator manipulator, IEmployeePaymentProcessor paymentProcessor)
+        public Runner(FileManipulator manipulator, IEmployeePaymentProcessor paymentProcessor)
         {
-            _inputPath = inputPath;
-            _outputPath = outputPath;
             _manipulator = manipulator;
             _paymentProcessor = paymentProcessor;
         }
         
-        public async Task<bool> Run()
+        public async Task<bool> Run(string inputPath, string outputPath)
         {
                 try
                 {
-                    var inputData = await _manipulator.GetData<IList<InputData>>(_inputPath);
+                    var inputData = await _manipulator.GetData<IList<InputData>>(inputPath);
                 
                     var outputFile =  _paymentProcessor.GeneratePaymentSummary(inputData);
 
                     if (outputFile.Count > 0)
                     {
-                        await _manipulator.SetData(outputFile, _outputPath);
+                        await _manipulator.SetData(outputFile, outputPath);
                     }
                     else
                     {

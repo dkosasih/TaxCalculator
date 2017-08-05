@@ -58,6 +58,7 @@
     <Compile Include="Core\MonthlyPayCalculator.cs" />
     <Compile Include="Dto\InputData.cs" />
     <Compile Include="Core\FileManipulator.cs" />
+    <Compile Include="Dto\TaxBracket.cs" />
     <Compile Include="Helper\FileWrapper.cs" />
     <Compile Include="Helper\IFileWrapper.cs" />
     <Compile Include="Ioc\CoreModule.cs" />
