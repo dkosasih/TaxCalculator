@@ -8,7 +8,7 @@ namespace TaxCalculator.Test
     public class MonthlyPayCalculatorTest
     {
         private AutoSubstitute _autoSubstitute;
-        private IPayCalculator _payCalculator;
+        private PayCalculator _payCalculator;
 
         [TestInitialize]
         public void Init()

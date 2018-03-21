@@ -9,10 +9,14 @@ namespace TaxCalculator.Ioc
         {
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Except<FileManipulator>()
+                .Except<PayCalculator>()
                 .AsImplementedInterfaces();
-            
-            builder.RegisterType<FileManipulator>().AsSelf();
-        }
 
+            builder.RegisterType<FileManipulator>().AsSelf();
+            builder.RegisterType<Runner>().AsSelf();
+
+            builder.RegisterType<MonthlyPayCalculator>().As<PayCalculator>().Keyed<PayCalculator>("Monthly");
+            builder.RegisterType<BiWeeklyPayCalculator>().As<PayCalculator>().Keyed<PayCalculator>("BiWeekly");
+        }
     }
 }

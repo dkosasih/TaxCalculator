@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using AutofacContrib.NSubstitute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -13,15 +14,14 @@ namespace TaxCalculator.Test
     {
         private AutoSubstitute _autoSubstitute;
         private IEmployeePaymentProcessor _employeePaymentProcessor;
-        private IPayCalculator _payCalculator;
+        private PayCalculator _payCalculator;
 
         [TestInitialize]
         public void Init()
         {
-            _autoSubstitute = new AutoSubstitute();
-
+            _autoSubstitute = new AutoSubstitute(cb => cb.RegisterType<MonthlyPayCalculator>().Keyed<PayCalculator>("Monthly"));
             _employeePaymentProcessor = _autoSubstitute.Resolve<EmployeePaymentProcessor>();
-            _payCalculator = _autoSubstitute.Resolve<IPayCalculator>();
+            _payCalculator = Substitute.For<MonthlyPayCalculator>();
         }
 
         [TestMethod]

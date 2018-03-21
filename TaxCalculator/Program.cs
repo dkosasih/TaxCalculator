@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Autofac;
@@ -11,7 +12,7 @@ namespace TaxCalculator
     {
         private static void Main(string[] args)
         {
-            IocConfig.RegisterDependencies();
+            IocConfig.RegisterDependencies("Monthly");
 
             if (args.Contains("/?") || args.Contains("-?"))
             {
@@ -25,7 +26,6 @@ namespace TaxCalculator
             {
                 if (ArgumentsValid(args, out inputPath, out outputPath))
                 {
-                    
                     var runner = scope.Resolve<Runner>();
                     successRun = runner.Run(inputPath, outputPath).Result;
                 }

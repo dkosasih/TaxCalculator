@@ -1,18 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Autofac.Features.Indexed;
 using TaxCalculator.Dto;
 
 namespace TaxCalculator.Core
 {
     public class EmployeePaymentProcessor : IEmployeePaymentProcessor
     {
-        private IPayCalculator _payCalc;
+        private PayCalculator _payCalc;
+        public string Period { get; set; }
 
-        public EmployeePaymentProcessor(IPayCalculator payCalculator)
+        public EmployeePaymentProcessor(IIndex<string, PayCalculator> payCalculator)
         {
-            _payCalc = payCalculator;
+            Period = "Monthly"; //default to monthly
+            _payCalc = payCalculator[Period];
         }
-
+        
         public IList<OutputData> GeneratePaymentSummary(IList<InputData> data)
         {
             var resultData = data.Select(x =>

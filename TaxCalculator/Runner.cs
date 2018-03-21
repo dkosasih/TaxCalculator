@@ -16,27 +16,28 @@ namespace TaxCalculator
             _manipulator = manipulator;
             _paymentProcessor = paymentProcessor;
         }
-        
+
         public async Task<bool> Run(string inputPath, string outputPath)
         {
-                try
-                {
-                    var inputData = await _manipulator.GetData<IList<InputData>>(inputPath);
-                
-                    var outputFile =  _paymentProcessor.GeneratePaymentSummary(inputData);
+            try
+            {
+                var inputData = await _manipulator.GetData<IList<InputData>>(inputPath);
 
-                    if (outputFile.Count > 0)
-                    {
-                        await _manipulator.SetData(outputFile, outputPath);
-                    }
-                    else
-                    {
-                        throw new Exception("Empty result no csv generated");
-                    }
-                }
-                catch (Exception ex)
+                _paymentProcessor.Period = "BiWeekly";
+                var outputFile = _paymentProcessor.GeneratePaymentSummary(inputData);
+
+                if (outputFile.Count > 0)
                 {
-                    Console.WriteLine($"Unexpected error executing the Runner. ex: {ex.Message}");
+                    await _manipulator.SetData(outputFile, outputPath);
+                }
+                else
+                {
+                    throw new Exception("Empty result no csv generated");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error executing the Runner. ex: {ex.Message}");
                 return false;
             }
 

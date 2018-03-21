@@ -5,12 +5,11 @@ using TaxCalculator.Dto;
 
 namespace TaxCalculator.Core
 {
-    public  class MonthlyPayCalculator : PayCalculator
+    public class BiWeeklyPayCalculator : PayCalculator
     {
-
         public override int CalculateGrossIncome(uint grossIncomeYearly)
         {
-            var monthlyIncome = (int)Math.Round(((double)grossIncomeYearly/12), MidpointRounding.AwayFromZero);
+            var monthlyIncome = (int)Math.Round(((double)grossIncomeYearly / 26), MidpointRounding.AwayFromZero);
             return monthlyIncome;
         }
 
@@ -18,7 +17,7 @@ namespace TaxCalculator.Core
         {
             var taxBracket = TaxParameters2017(grossIncomeYearly);
             var incomeTax =
-                (int)Math.Round((taxBracket.PreviousTaxBracket + (grossIncomeYearly - taxBracket.LowerLimit)*taxBracket.TaxRate)/12,
+                (int)Math.Round((taxBracket.PreviousTaxBracket + (grossIncomeYearly - taxBracket.LowerLimit) * taxBracket.TaxRate) / 26,
                     MidpointRounding.AwayFromZero);
 
             return incomeTax;
@@ -73,12 +72,12 @@ namespace TaxCalculator.Core
 
             };
             return taxParameters;
-        } 
+        }
 
         private TaxBracket TaxParameters2017(uint income)
         {
             var taxBrackets = GetParameterSet();
-            return taxBrackets.OrderByDescending(x=>x.LowerLimit).First(x => income > x.LowerLimit);
+            return taxBrackets.OrderByDescending(x => x.LowerLimit).First(x => income > x.LowerLimit);
         }
     }
 }

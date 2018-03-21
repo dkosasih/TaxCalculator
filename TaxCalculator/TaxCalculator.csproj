@@ -54,6 +54,7 @@
     <Compile Include="Core\IEmployeePaymentProcessor.cs" />
     <Compile Include="Core\IPayCalculator.cs" />
     <Compile Include="Core\EmployeePaymentProcessor.cs" />
+    <Compile Include="Core\PayCalculator.cs" />
     <Compile Include="Dto\OutputData.cs" />
     <Compile Include="Core\MonthlyPayCalculator.cs" />
     <Compile Include="Dto\InputData.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Dto\TaxBracket.cs" />
     <Compile Include="Helper\FileWrapper.cs" />
     <Compile Include="Helper\IFileWrapper.cs" />
+    <Compile Include="Core\BiWeeklyPayCalculator.cs" />
     <Compile Include="Ioc\CoreModule.cs" />
     <Compile Include="Ioc\IocConfig.cs" />
     <Compile Include="Program.cs" />

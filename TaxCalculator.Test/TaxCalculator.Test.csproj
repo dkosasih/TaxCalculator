@@ -35,12 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.6.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.1\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AutofacContrib.NSubstitute, Version=3.3.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutofacContrib.NSubstitute.3.3.7\lib\NET40\AutofacContrib.NSubstitute.dll</HintPath>
+    <Reference Include="AutofacContrib.NSubstitute, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutofacContrib.NSubstitute.4.0.1\lib\NET45\AutofacContrib.NSubstitute.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -74,14 +74,14 @@
     <Compile Include="MonthlyPayCalculatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaxCalculator\TaxCalculator.csproj">
-      <Project>{2EAF9758-64D9-4BB5-9269-09F85B4FD884}</Project>
-      <Name>TaxCalculator</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaxCalculator\TaxCalculator.csproj">
+      <Project>{2eaf9758-64d9-4bb5-9269-09f85b4fd884}</Project>
+      <Name>TaxCalculator</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
