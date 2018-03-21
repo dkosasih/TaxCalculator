@@ -6,7 +6,7 @@ namespace TaxCalculator.Dto
     {
         public string Firstname { get; set; }
         public string Lastname { get; set; }
-        public uint AnnualSalary { get; set; }
+        public decimal AnnualSalary { get; set; }
         public uint SuperRate { get; set; }
         public string PayPeriod { get; set; }
 

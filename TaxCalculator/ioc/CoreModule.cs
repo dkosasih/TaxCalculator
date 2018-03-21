@@ -12,6 +12,7 @@ namespace TaxCalculator.Ioc
                 .AsImplementedInterfaces();
             
             builder.RegisterType<FileManipulator>().AsSelf();
+            builder.RegisterType<Runner>().AsSelf();
         }
 
     }

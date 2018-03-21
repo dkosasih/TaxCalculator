@@ -2,8 +2,8 @@
 {
     public interface IPayCalculator
     {
-        int CalculateGrossIncome(uint grossIncomeYearly);
-        int CalculateIncomeTax(uint grossIncomeYearly);
+        int CalculateGrossIncome(decimal grossIncomeYearly);
+        int CalculateIncomeTax(decimal grossIncomeYearly);
         int CalculateNetIncome(int grossIncomeMonthly, int incomeTax);
         int CalculateSuper(int grossIncomeMonthly, uint superRate);
     }

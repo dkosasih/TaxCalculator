@@ -54,6 +54,8 @@
     <Compile Include="Core\IEmployeePaymentProcessor.cs" />
     <Compile Include="Core\IPayCalculator.cs" />
     <Compile Include="Core\EmployeePaymentProcessor.cs" />
+    <Compile Include="Core\ITaxBracketProcessor.cs" />
+    <Compile Include="Core\TaxBracketProcessor.cs" />
     <Compile Include="Dto\OutputData.cs" />
     <Compile Include="Core\MonthlyPayCalculator.cs" />
     <Compile Include="Dto\InputData.cs" />

@@ -32,6 +32,19 @@ namespace TaxCalculator.Test
         }
 
         [TestMethod]
+        public void CalculateGrossIncomeMonthly_YearlyIncomeInDecimal_ReturnRoundedIntergerValue()
+        {
+            // Arrange
+            decimal income = 60050.5M;
+
+            // Act
+            var result = _payCalculator.CalculateGrossIncome(income);
+
+            // Assert
+            Assert.AreEqual(5004, result);
+        }
+
+        [TestMethod]
         public void CalculateIncomeTax_YearlyIncome_ReturnMonthlyTaxValue()
         {
             // Arrange
